@@ -6,16 +6,13 @@ Jeden przycisk: klik → nagrywa, drugi klik → kończy i przepisuje tekst w ok
 ## Uruchomienie
 
 ```bash
-./run.sh
+./venv.sh   # jednorazowo: tworzy .venv/, instaluje zależności i pobiera model
+./run.sh    # uruchamia aplikację
 ```
 
-Środowisko `venv/` jest dołączone (PyQt6 + faster-whisper). Po przeniesieniu
-projektu na inny komputer wystarczy odtworzyć je poleceniem:
-
-```bash
-python3 -m venv venv
-venv/bin/pip install -r requirements.txt
-```
+`venv.sh` jest idempotentny — można go odpalać wielokrotnie; pomija to, co
+już zrobione. Model Whispera pobiera taki, jaki jest ustawiony w
+`config.json` (domyślnie `small`) do cache `~/.cache/huggingface`.
 
 ## Jak to działa
 
@@ -46,6 +43,7 @@ Ustawienia zapisują się w `config.json` obok skryptu.
 Dyktator-GUI/
 ├── main.py           # cała aplikacja (PyQt6)
 ├── run.sh            # launcher
+├── venv.sh           # instalacja środowiska .venv/, zależności i modelu
 ├── requirements.txt
 ├── config.json       # tworzony przy pierwszym uruchomieniu
 ├── nagrania/         # pliki WAV z nagrań

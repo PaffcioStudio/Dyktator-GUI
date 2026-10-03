@@ -203,7 +203,7 @@ class Transkrybent(QThread):
             from faster_whisper import WhisperModel
         except ImportError:
             self.blad.emit(
-                "Brak biblioteki faster-whisper — zainstaluj: venv/bin/pip install faster-whisper"
+                "Brak biblioteki faster-whisper — zainstaluj: ./venv.sh"
             )
             return
 
