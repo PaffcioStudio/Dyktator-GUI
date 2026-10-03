@@ -7,18 +7,18 @@ Jeden przycisk: klik → nagrywa, drugi klik → kończy i przepisuje tekst w ok
 
 ## Do czego się przydaje
 
-- **Nauka wymowy i akcentu** — ustaw język na np. angielski, powiedz zdanie
+- **Nauka wymowy i akcentu** - ustaw język na np. angielski, powiedz zdanie
   po angielsku i sprawdź, co „usłyszał" Whisper. Przepisał dokładnie to, co
   zamierzałeś? Wymowa siadła. Zniekształcił jakieś słowo? Masz od razu
-  feedback, co wymaga poprawy. Działa tak z każdym językiem z listy —
+  feedback, co wymaga poprawy. Działa tak z każdym językiem z listy -
   możesz treningowo przerabiać różne akcenty.
-- **Budowa głosowego asystenta AI** — Dyktator-GUI to gotowy pierwszy etap
+- **Budowa głosowego asystenta AI** - Dyktator-GUI to gotowy pierwszy etap
   takiego systemu: mowa → tekst. Dalej droga jest już krótka: tekst
   (np. ze schowka, przy włączonej opcji kopiowania) trafia do modelu
   językowego, model zwraca odpowiedź, a syntezator mowy (TTS) czyta ją
-  na głos. Pełny obieg: **mowa → tekst → AI → tekst → mowa** — pole do
+  na głos. Pełny obieg: **mowa → tekst → AI → tekst → mowa** - pole do
   popisu jest ogromne.
-- **Zwykłe dyktowanie** — notatki, wiadomości, pierwszy szkic tekstu bez
+- **Zwykłe dyktowanie** - notatki, wiadomości, pierwszy szkic tekstu bez
   klepania na klawiaturze; wynik od razu w oknie (można poprawić) i
   opcjonalnie w schowku.
 
@@ -29,7 +29,7 @@ Jeden przycisk: klik → nagrywa, drugi klik → kończy i przepisuje tekst w ok
 ./run.sh    # uruchamia aplikację
 ```
 
-`venv.sh` jest idempotentny — można go odpalać wielokrotnie; pomija to, co
+`venv.sh` jest idempotentny - można go odpalać wielokrotnie; pomija to, co
 już zrobione. Model Whispera pobiera taki, jaki jest ustawiony w
 `config.json` (domyślnie `small`) do cache `~/.cache/huggingface`.
 

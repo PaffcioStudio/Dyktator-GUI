@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# venv.sh — tworzy środowisko .venv/, instaluje zależności z requirements.txt
+# venv.sh - tworzy środowisko .venv/, instaluje zależności z requirements.txt
 # i pobiera model Whispera do cache (~/.cache/huggingface), jeśli trzeba.
-# Skrypt można uruchamiać wielokrotnie — pomija to, co już jest zrobione.
+# Skrypt można uruchamiać wielokrotnie - pomija to, co już jest zrobione.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -10,7 +10,7 @@ if [ ! -x .venv/bin/python ]; then
     echo "==> Tworzę środowisko .venv/ ..."
     python3 -m venv .venv
 else
-    echo "==> .venv/ już istnieje — pomijam tworzenie."
+    echo "==> .venv/ już istnieje - pomijam tworzenie."
 fi
 
 # --- 2. zależności ---

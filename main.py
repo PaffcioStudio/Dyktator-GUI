@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Dyktator-GUI — nagrywanie mowy z mikrofonu i lokalna transkrypcja (faster-whisper).
+"""Dyktator-GUI - nagrywanie mowy z mikrofonu i lokalna transkrypcja (faster-whisper).
 
 Przycisk Start/Stop nagrywa przez PipeWire (pw-record), a po zatrzymaniu
 nagranie jest przepisywane lokalnie modelem Whisper. Nic nie wychodzi
@@ -54,8 +54,8 @@ JEZYKI = {
     "francuski": "fr",
 }
 PRECYZJE = {
-    "int8 — szybko (CPU)": "int8",
-    "float32 — dokładniej, wolniej": "float32",
+    "int8 - szybko (CPU)": "int8",
+    "float32 - dokładniej, wolniej": "float32",
 }
 
 DOMYSLNA_KONFIG = {
@@ -203,7 +203,7 @@ class Transkrybent(QThread):
             from faster_whisper import WhisperModel
         except ImportError:
             self.blad.emit(
-                "Brak biblioteki faster-whisper — zainstaluj: ./venv.sh"
+                "Brak biblioteki faster-whisper - zainstaluj: ./venv.sh"
             )
             return
 
@@ -222,7 +222,7 @@ class Transkrybent(QThread):
         model = _MODELE_CACHE[klucz]
 
         # Whisper przyjmuje float32 @ 16 kHz mono. Konwertujemy ffmpegem
-        # i czytamy modułem wave — transkrypcja z wątku roboczego omija
+        # i czytamy modułem wave - transkrypcja z wątku roboczego omija
         # w ten sposób wadliwy resampler PyAV.
         audio = None
         wav16 = self.plik.with_suffix(".16k.wav")
@@ -239,7 +239,7 @@ class Transkrybent(QThread):
                     .astype(np.float32) / 32768.0
                 )
         except (OSError, subprocess.SubprocessError, wave.Error):
-            pass  # brak ffmpeg — transkrybujemy plik bezpośrednio
+            pass  # brak ffmpeg - transkrybujemy plik bezpośrednio
         finally:
             wav16.unlink(missing_ok=True)
 
@@ -261,7 +261,7 @@ class Transkrybent(QThread):
 class OknoGlowne(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Dyktator-GUI — mikrofon → tekst")
+        self.setWindowTitle("Dyktator-GUI - mikrofon → tekst")
         self.resize(720, 580)
 
         self.konfig = wczytaj_konfig()
@@ -323,7 +323,7 @@ class OknoGlowne(QMainWindow):
         self.combo_model.addItems(MODELE)
         self.combo_model.setToolTip(
             "Większy model = lepsza dokładność, ale wolniej.\n"
-            "medium/large przy pierwszym użyciu pobierają 1,5–3 GB."
+            "medium/large przy pierwszym użyciu pobierają 1,5-3 GB."
         )
         self.combo_model.currentTextChanged.connect(self._zapisz_ustawienia)
         siatka.addWidget(self.combo_model, 0, 1)
@@ -438,11 +438,14 @@ class OknoGlowne(QMainWindow):
         self.etykieta_czas.setText(f"{sekundy // 60}:{sekundy % 60:02d}")
 
     def _nagranie_gotowe(self, plik):
-        self.nagrywarka = None
+        # celowo NIE zwalniamy self.nagrywarka: sygnał przyszedł zanim wątek
+        # wrócił z run(), a zniszczenie QThread w trakcie działania wywala
+        # program ("QThread: Destroyed while thread is still running").
+        # Referencję zastąpi nowa Nagrywarka przy kolejnym nagrywaniu.
         self.pasek_glosnosci.setValue(0)
         self.przycisk_nagrywaj.setText("🎙  Zacznij nagrywać")
         self.przycisk_nagrywaj.setStyleSheet("font-size: 16pt; font-weight: bold;")
-        self.statusBar().showMessage(f"Nagrano: {plik.name} — przygotowuję transkrypcję…")
+        self.statusBar().showMessage(f"Nagrano: {plik.name} - przygotowuję transkrypcję…")
         self.transkrybent = Transkrybent(
             plik,
             self.combo_model.currentText(),
@@ -455,10 +458,10 @@ class OknoGlowne(QMainWindow):
         self.transkrybent.start()
 
     def _transkrypcja_gotowa(self, tekst, plik):
-        self.transkrybent = None
+        # j.w.: referencję do wątku transkrypcji zwalnia dopiero kolejny start
         self.przycisk_nagrywaj.setEnabled(True)
         if not tekst:
-            self.statusBar().showMessage("Nic nie usłyszałem — sprawdź mikrofon i głośność.")
+            self.statusBar().showMessage("Nic nie usłyszałem - sprawdź mikrofon i głośność.")
             return
         self.pole_tekstu.setPlainText(tekst)
         if self.checkbox_kopiuj.isChecked():
@@ -467,12 +470,11 @@ class OknoGlowne(QMainWindow):
             ZAPISY_DIR.mkdir(exist_ok=True)
             cel = ZAPISY_DIR / (plik.stem + ".txt")
             cel.write_text(tekst + "\n", encoding="utf-8")
-            self.statusBar().showMessage(f"Gotowe — zapisano też do {cel}")
+            self.statusBar().showMessage(f"Gotowe - zapisano też do {cel}")
         else:
             self.statusBar().showMessage("Gotowe.")
 
     def _blad(self, komunikat):
-        self.transkrybent = None
         self.przycisk_nagrywaj.setEnabled(True)
         self.przycisk_nagrywaj.setChecked(False)
         self.przycisk_nagrywaj.setText("🎙  Zacznij nagrywać")
