@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+nagrania/
+zapisy/
+config.json
+*.16k.wav

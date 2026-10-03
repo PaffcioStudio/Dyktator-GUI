@@ -1,0 +1,3 @@
+PyQt6
+faster-whisper
+av<16
