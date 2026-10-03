@@ -3,6 +3,25 @@
 Nagrywanie mowy z mikrofonu i **w pełni lokalna** transkrypcja (faster-whisper).
 Jeden przycisk: klik → nagrywa, drugi klik → kończy i przepisuje tekst w oknie.
 
+![Okno główne Dyktator-GUI: przycisk nagrywania, miernik głośności, pole transkrypcji i panel konfiguracji](docs/screenshots/gui.png)
+
+## Do czego się przydaje
+
+- **Nauka wymowy i akcentu** — ustaw język na np. angielski, powiedz zdanie
+  po angielsku i sprawdź, co „usłyszał" Whisper. Przepisał dokładnie to, co
+  zamierzałeś? Wymowa siadła. Zniekształcił jakieś słowo? Masz od razu
+  feedback, co wymaga poprawy. Działa tak z każdym językiem z listy —
+  możesz treningowo przerabiać różne akcenty.
+- **Budowa głosowego asystenta AI** — Dyktator-GUI to gotowy pierwszy etap
+  takiego systemu: mowa → tekst. Dalej droga jest już krótka: tekst
+  (np. ze schowka, przy włączonej opcji kopiowania) trafia do modelu
+  językowego, model zwraca odpowiedź, a syntezator mowy (TTS) czyta ją
+  na głos. Pełny obieg: **mowa → tekst → AI → tekst → mowa** — pole do
+  popisu jest ogromne.
+- **Zwykłe dyktowanie** — notatki, wiadomości, pierwszy szkic tekstu bez
+  klepania na klawiaturze; wynik od razu w oknie (można poprawić) i
+  opcjonalnie w schowku.
+
 ## Uruchomienie
 
 ```bash
